@@ -16,12 +16,6 @@ const ConfigSchema = z.object({
       .string()
       .min(1, "NEXT_PUBLIC_STACK_PROJECT_ID is required"),
   }),
-  vercel: z.object({
-    enableToolbar: z.boolean(),
-    automationBypassSecret: z
-      .string()
-      .min(1, "VERCEL_AUTOMATION_BYPASS_SECRET is required"),
-  }),
   kv: z.object({
     restUrl: z.string().min(1, "KV_REST_API_URL is required"),
     restToken: z.string().min(1, "KV_REST_API_TOKEN is required"),
@@ -48,11 +42,6 @@ export function getServerApplicationConfig(): ServerApplicationConfig {
         publishableClientKey:
           process.env.NEXT_PUBLIC_STACK_PUBLISHABLE_CLIENT_KEY,
         publishableProjectId: process.env.NEXT_PUBLIC_STACK_PROJECT_ID,
-      },
-      vercel: {
-        url: process.env.NEXT_PUBLIC_ORIGIN,
-        enableToolbar: process.env.VERCEL_TOOLBAR_ENABLED === "true",
-        automationBypassSecret: process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
       },
       kv: {
         restUrl: process.env.KV_REST_API_URL,

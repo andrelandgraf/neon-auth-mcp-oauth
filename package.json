@@ -3,22 +3,37 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "fmt": "prettier --write .",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@epic-web/invariant": "^1.0.0",
+    "@epic-web/remember": "^1.1.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@neondatabase/serverless": "^1.0.0",
+    "@stackframe/stack": "^2.8.12",
+    "@upstash/redis": "^1.35.0",
+    "drizzle-orm": "^0.44.1",
+    "fetch-to-node": "^2.1.0",
+    "hono": "^4.7.11",
+    "jose": "^6.0.11",
+    "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.3"
+    "uuid": "^11.1.0",
+    "zod": "^3.25.50"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "drizzle-kit": "^0.31.1",
+    "prettier": "^3.5.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

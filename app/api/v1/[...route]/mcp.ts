@@ -1,5 +1,6 @@
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
+import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { toFetchResponse, toReqRes } from "fetch-to-node";
@@ -52,9 +53,9 @@ function getServer() {
   // Example tool: echo
   server.tool(
     "echo",
-    { message: { description: "The message to echo back.", type: "string" } },
-    async (args) => {
-      return { content: args.message };
+    { message: z.string().describe("The message to echo back.") },
+    (args) => {
+      return { content: [{ type: "text", text: args.message }] };
     },
   );
 

@@ -1,4 +1,5 @@
 import { Context, Hono } from "hono";
+import { cors } from "hono/cors";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { toFetchResponse, toReqRes } from "fetch-to-node";
@@ -64,6 +65,14 @@ function getServer() {
 }
 
 const mcpApp = new Hono();
+mcpApp.use(
+  "/*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 mcpApp.post("/", async (c) => {
   const { req, res } = toReqRes(c.req.raw);

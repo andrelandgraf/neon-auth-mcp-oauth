@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { z } from "zod";
 import {
   deleteAuthorizationCode,
@@ -18,6 +19,14 @@ import { registerOAuthClient } from "@/lib/oauth/register";
 import { getLoginUrl, stackServerApp } from "@/lib/stack";
 
 const oauthApp = new Hono();
+oauthApp.use(
+  "/*",
+  cors({
+    origin: "*",
+    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 oauthApp.post("/register", async (c) => {
   const registration = await registerOAuthClient();

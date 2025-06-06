@@ -5,6 +5,7 @@
   "scripts": {
     "fmt": "prettier --write .",
     "dev": "next dev --turbopack",
+    "playground": "bunx @modelcontextprotocol/inspector@latest",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

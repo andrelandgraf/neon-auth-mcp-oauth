@@ -10,6 +10,7 @@ const app = new Hono().basePath("/api/v1");
 app.route("/oauth", oauthApp);
 app.route("/mcp", mcpApp);
 
+export const OPTIONS = handle(app);
 export const GET = handle(app);
 export const POST = handle(app);
 export const PUT = handle(app);

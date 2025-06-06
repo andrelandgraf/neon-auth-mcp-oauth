@@ -31,9 +31,7 @@ export function getServerApplicationConfig(): ServerApplicationConfig {
   try {
     return ConfigSchema.parse({
       env: process.env.NODE_ENV,
-      // NEXT_PUBLIC_ORIGIN is set in prod and locally, fallback to VERCEL_URL for preview environments
-      origin:
-        process.env.NEXT_PUBLIC_ORIGIN || `https://${process.env.VERCEL_URL}`,
+      origin: process.env.NEXT_PUBLIC_ORIGIN,
       oauth: {
         secret: process.env.OAUTH_JWT_SECRET,
       },

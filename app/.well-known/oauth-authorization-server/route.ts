@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { config } from "../../../lib/config";
 
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, OPTIONS",
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
+}
+
 export async function GET(_request: NextRequest) {
   const metadata = {
     issuer: config.origin,
@@ -13,5 +24,12 @@ export async function GET(_request: NextRequest) {
     token_endpoint_auth_methods_supported: ["none"],
   };
 
-  return NextResponse.json(metadata);
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, OPTIONS",
+    "Access-Control-Allow-Headers": "*",
+    "Content-Type": "application/json",
+  };
+
+  return NextResponse.json(metadata, { headers });
 }

@@ -1,3 +1,5 @@
+![MCP Inspector Demo](./assets/inspector-demo.gif)
+
 # Neon Auth MCP OAuth
 
 PoC implementation of a custom MCP OAuth flow with Next.js, Neon, Upstash Redis, and Neon Auth.
@@ -29,3 +31,19 @@ Replace the example URL with `http://localhost:3000/api/v1/mcp` to try our the d
 ## Environment
 
 Create a `.env` file. Review [./lib/config.ts](./lib/config.ts) for a full list of required .env variables.
+
+## Development
+
+- Run the MCP Inspector for debugging:
+
+```bash
+npm run playground
+```
+
+- Paste `http://localhost:3000/api/v1/mcp` in the MCP Inspector MCP Server URL field.
+
+- Run the application
+
+```bash
+npm run dev
+```

@@ -23,6 +23,8 @@ You can try it out by adding the following MCP config to Cursor, Windsurf, Claud
 
 Replace the example URL with `http://localhost:3000/api/v1/mcp` to try our the development server.
 
+Note: Run `rm -rf ~/.mcp-auth` if you are running into issues. MCP auth is still flaky in my experience and resetting the stored auth state of the `mcp-remote` package helps.
+
 ## Setup
 
 1. Set up Neon and Neon Auth.

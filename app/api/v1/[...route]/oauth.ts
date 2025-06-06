@@ -17,6 +17,7 @@ import { signJwt } from "@/lib/oauth/jwt";
 import { allOAuthScopes } from "@/lib/oauth/scopes";
 import { registerOAuthClient } from "@/lib/oauth/register";
 import { getLoginUrl, stackServerApp } from "@/lib/stack";
+import { verifyPKCE } from "@/lib/oauth/pkce";
 
 const oauthApp = new Hono();
 oauthApp.use(
@@ -40,6 +41,8 @@ const authorizeParams = z.object({
   redirect_uri: z.string().url(),
   scope: z.string().optional(),
   state: z.string().optional(),
+  code_challenge: z.string(), // required for PKCE
+  code_challenge_method: z.enum(["S256"]).default("S256"),
 });
 
 oauthApp.get("/authorize", async (c) => {
@@ -48,8 +51,24 @@ oauthApp.get("/authorize", async (c) => {
     return c.text("Invalid request parameters", 400);
   }
 
-  // For now, ignore incomnig scope, always use all scopes
-  const { client_id, redirect_uri, state } = result.data;
+  const {
+    client_id,
+    redirect_uri,
+    state,
+    code_challenge,
+    code_challenge_method,
+  } = result.data;
+
+  if (code_challenge_method !== "S256") {
+    return c.json(
+      {
+        error: "invalid_request",
+        error_description: "Unsupported code_challenge_method",
+      },
+      400,
+    );
+  }
+
   const user = await stackServerApp.getUser();
   if (!user) {
     const authorizeUrl = new URL(`${config.origin}/api/v1/oauth/authorize`);
@@ -66,6 +85,8 @@ oauthApp.get("/authorize", async (c) => {
     user_id: user.id,
     redirect_uri,
     scope: allOAuthScopes,
+    code_challenge,
+    code_challenge_method,
   });
 
   const redirectUrl = new URL(redirect_uri);
@@ -81,6 +102,7 @@ const tokenParams = z.discriminatedUnion("grant_type", [
     code: z.string(),
     redirect_uri: z.string().url(),
     client_id: z.string(),
+    code_verifier: z.string(),
   }),
   z.object({
     grant_type: z.literal("refresh_token"),
@@ -133,6 +155,16 @@ oauthApp.post("/token", async (c) => {
         {
           error: "invalid_grant",
           error_description: "Mismatched client_id or redirect_uri",
+        },
+        400,
+      );
+    }
+
+    if (!verifyPKCE(data.code_verifier, codeData.code_challenge)) {
+      return c.json(
+        {
+          error: "invalid_grant",
+          error_description: "PKCE verification failed",
         },
         400,
       );

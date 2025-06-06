@@ -7,19 +7,19 @@ You can try it out by adding the following MCP config to Cursor, Windsurf, Claud
 ```json
 {
   "mcpServers": {
-      "echo": {
-          "command": "npx",
-          "args": [
-              "-y",
-              "mcp-remote",
-              "https://neon-auth-mcp-oauth-6zf3o859s-andrelandgraf.vercel.app"
-          ]
-      }
+    "echo": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://neon-auth-mcp-oauth.vercel.app/api/v1/mcp"
+      ]
+    }
   }
 }
 ```
 
-Replace the example URL with `http://localhost:3000` to try our the development server.
+Replace the example URL with `http://localhost:3000/api/v1/mcp` to try our the development server.
 
 ## Setup
 
@@ -28,4 +28,4 @@ Replace the example URL with `http://localhost:3000` to try our the development 
 
 ## Environment
 
-Create a `.env` file.  Review [./lib/config.ts](./lib/config.ts) for a full list of required .env variables.
+Create a `.env` file. Review [./lib/config.ts](./lib/config.ts) for a full list of required .env variables.
